@@ -3,3 +3,4 @@ export {
   RegisterFormSchema,
   ResetPasswordFormSchema,
 } from "./auth";
+export { PostFormSchema } from "./post";

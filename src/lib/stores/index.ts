@@ -38,5 +38,10 @@ export const useFilterStore = create<FilterStore>((set) => ({
     }),
 }));
 
-export { usePostOpenStore } from "./post";
+export {
+  usePostFormStore,
+  usePostOpenStore,
+  usePostTypeStore,
+  useSearchStore,
+} from "./post";
 export { useSessionStore } from "./session";

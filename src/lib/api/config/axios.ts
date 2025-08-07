@@ -74,7 +74,7 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        await axios.post(`${SERVER_URL}/auth/refresh`, null, {
+        await axios.post(`${SERVER_URL}/users/refresh-token`, null, {
           withCredentials: true,
         });
         processQueue();

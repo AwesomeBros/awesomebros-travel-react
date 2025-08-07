@@ -1,0 +1,51 @@
+import { useCreatePost } from "@/lib/query";
+import { usePostFormStore, usePostOpenStore } from "@/lib/stores";
+import type { PostFormSchema } from "@/lib/validations";
+import type z from "zod/v3";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "../../ui/dialog";
+import PostForm from "./post-form";
+
+export default function PostWriteDialog() {
+  const { isOpen, onClose } = usePostOpenStore();
+  const { postForm, setPostForm, resetPostForm } = usePostFormStore();
+  const createPost = useCreatePost();
+  function onSubmit(data: z.infer<typeof PostFormSchema>) {
+    console.log("PostWriteDialog onSubmit data:", data);
+
+    createPost.mutate(data, {
+      onSuccess: () => {
+        onClose();
+        resetPostForm();
+      },
+    });
+  }
+
+  function onStepSave(data: z.infer<typeof PostFormSchema>) {
+    setPostForm(data);
+  }
+
+  return (
+    <Dialog open={isOpen} onOpenChange={() => onClose()}>
+      <DialogContent className="sm:max-w-4xl">
+        <DialogHeader>
+          <DialogTitle className="text-lg text-center font-mediom leading-6 text-gray-900">
+            글 작성하기
+          </DialogTitle>
+        </DialogHeader>
+        <section className="w-full mx-auto px-4 min-h-[80vh] overflow-auto">
+          <PostForm
+            onSubmit={onSubmit}
+            defaultValues={postForm}
+            isUpdateMode={false}
+            onStepSave={onStepSave}
+          />
+        </section>
+      </DialogContent>
+    </Dialog>
+  );
+}
