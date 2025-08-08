@@ -17,7 +17,9 @@ export type FilterComponentProps = {
   setDetailFilter: Dispatch<SetStateAction<DetailFilterType | null>>;
 };
 
+export type { HomeCities } from "./city";
 export type { Location, Place } from "./map";
+export type { HomeSort, Post } from "./post";
 export type { Session } from "./session";
 export type { User } from "./user";
 export type { City, Country, District };

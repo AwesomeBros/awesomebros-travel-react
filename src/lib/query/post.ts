@@ -1,8 +1,9 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { createPost } from "../api";
+import { createPost, findPostsByCities, findPostsBySort } from "../api";
+import type { HomeCities, HomeSort } from "../types";
 
-export const useCreatePost = () => {
+export function useCreatePost() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createPost,
@@ -18,4 +19,22 @@ export const useCreatePost = () => {
     },
   });
   return mutation;
-};
+}
+
+export function useFindPostsBySort(sort: HomeSort) {
+  const query = useQuery({
+    queryKey: ["posts", { sort }],
+    queryFn: () => findPostsBySort(sort),
+    staleTime: 1000 * 60 * 5,
+  });
+  return query;
+}
+
+export function useFindPostsByCities(city: HomeCities) {
+  const query = useQuery({
+    queryKey: ["posts", { city }],
+    queryFn: () => findPostsByCities(city),
+    staleTime: 1000 * 60 * 5,
+  });
+  return query;
+}
