@@ -18,6 +18,7 @@ export type FilterComponentProps = {
 };
 
 export type { HomeCities } from "./city";
+export type { Comment } from "./comment";
 export type { Location, Place } from "./map";
 export type { HomeSort, Post } from "./post";
 export type { Session } from "./session";

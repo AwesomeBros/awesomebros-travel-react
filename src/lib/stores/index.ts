@@ -43,5 +43,6 @@ export {
   usePostOpenStore,
   usePostTypeStore,
   useSearchStore,
+  useShareOpenStore,
 } from "./post";
 export { useSessionStore } from "./session";

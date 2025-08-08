@@ -71,3 +71,9 @@ export const useSearchStore = create<SearchStore>((set) => ({
   q: "",
   setQ: (q) => set({ q }),
 }));
+
+export const useShareOpenStore = create<OpenStore>((set) => ({
+  isOpen: false,
+  onOpen: () => set({ isOpen: true }),
+  onClose: () => set({ isOpen: false }),
+}));

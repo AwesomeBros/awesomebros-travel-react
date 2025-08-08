@@ -21,3 +21,8 @@ export async function findPostsByCities(city: HomeCities) {
   });
   return response.data;
 }
+
+export async function findPostById(id?: number) {
+  const response = await api.get(`/posts/${id}`);
+  return response.data;
+}

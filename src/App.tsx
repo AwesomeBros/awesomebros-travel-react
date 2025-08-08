@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Container from "./components/shared";
 import { useAuthenticated } from "./lib/query";
 import { useSessionStore } from "./lib/stores";
-import { Home, Login, Register } from "./pages";
+import { Home, Login, PostDetails, PostRedirect, Register } from "./pages";
 import { ProtectedRoute, PublicRoute } from "./routes";
 
 function App() {
@@ -42,6 +42,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/posts/:id" element={<PostRedirect />} />
+          <Route path="/posts/:id/:slug" element={<PostDetails />} />
         </Route>
 
         <Route element={<ProtectedRoute />}></Route>
