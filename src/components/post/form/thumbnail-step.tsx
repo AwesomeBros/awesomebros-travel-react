@@ -4,7 +4,6 @@ import { CameraIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import type { UseFormReturn } from "react-hook-form";
-import { toast } from "sonner";
 import type z from "zod/v3";
 import ButtonWrap from "./button-wrap";
 import Stepper from "./stepper";
@@ -23,29 +22,18 @@ export default function ThumbnailStep({
   const [image, setImage] = useState<string | null>(
     form.getValues("url") || null
   );
-  const [uploading, setUploading] = useState(false);
-  const onDrop = useCallback(
-    async (acceptedFiles: File[]) => {
-      setUploading(true);
-      try {
-        const formData = new FormData();
-
-        Array.from(acceptedFiles).forEach((file) => {
-          formData.append("files", file);
-        });
-        const data = await imageUpload(formData);
-        console.log("data", data.body[0]);
-        form.setValue("url", String(data.body[0]) || "");
-        setImage(String(data.body[0]));
-      } catch (error) {
-        console.error("이미지 업로드 실패:", error);
-        toast.error("이미지 업로드에 실패했습니다.");
-      } finally {
-        setUploading(false);
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      const data = await imageUpload(formData);
+      if (data) {
+        setImage(data);
+        form.setValue("url", data);
       }
-    },
-    [image, form]
-  );
+    }
+  }, []);
   const { getRootProps, isDragActive, getInputProps } = useDropzone({ onDrop });
 
   const handleImageRemove = () => {
@@ -65,9 +53,7 @@ export default function ThumbnailStep({
           <div className="col-span-full">
             {!image ? (
               <div
-                className={`mt-2 flex justify-center rounded-lg w-full aspect-2/1 border border-dashed border-gray-900/25 px-6 py-30 cursor-pointer ${
-                  uploading ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                className="mt-2 flex justify-center rounded-lg w-full aspect-2/1 border border-dashed border-gray-900/25 px-6 py-30 cursor-pointer"
                 {...getRootProps()}
               >
                 <input {...getInputProps()} className="sr-only" />

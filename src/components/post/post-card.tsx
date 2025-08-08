@@ -38,7 +38,7 @@ export default function PostCard({ post, index }: Props) {
           <img
             src={post.url ? post.url : NO_THUMBNAIL}
             alt="Board Image"
-            className="object-cover object-center"
+            className="size-full object-cover object-center"
           />
         </Link>
         {/* <LikeButton post={post} /> */}
