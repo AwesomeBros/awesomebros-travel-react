@@ -1,6 +1,6 @@
 import api from "./config/axios";
 
-export async function getMe() {
-  const response = await api.get("/users/me");
+export async function getProfile() {
+  const response = await api.get("/users/profile");
   return response.data;
 }

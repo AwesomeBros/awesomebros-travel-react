@@ -51,14 +51,25 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+
     if (axios.isAxiosError(error) && error.response?.data?.message) {
-      if (error.response.status !== 401) {
+      if (error.response.status !== 403) {
         throw new Error(error.response.data.message);
       }
     }
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    // ✅ 403 에러 처리 개선
+    if (error.response?.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true;
+
+      const noRefreshEndpoints = ["/users/profile"];
+      const isNoRefreshEndpoint = noRefreshEndpoints.some((endpoint) =>
+        originalRequest.url?.includes(endpoint)
+      );
+
+      if (isNoRefreshEndpoint) {
+        return Promise.reject(error);
+      }
 
       if (isRefreshing) {
         return new Promise(function (resolve, reject) {

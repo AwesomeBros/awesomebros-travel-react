@@ -1,30 +1,39 @@
-import { useCookies } from "react-cookie";
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Container from "./components/shared";
+import { useAuthenticated } from "./lib/query";
+import { useSessionStore } from "./lib/stores";
 import { Home, Login, Register } from "./pages";
 import { ProtectedRoute, PublicRoute } from "./routes";
 
 function App() {
-  // const { session,setSession, resetSession } = useSessionStore();
-  const [cookies] = useCookies();
+  const { setSession, resetSession, setIsAuthenticated, isAuthenticated } =
+    useSessionStore();
+  const { data: user, isError, checkAuth } = useAuthenticated();
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   if (!session) {
-  //     resetSession();
-  //     return;
-  //   } else {
-  //     try {
-  //       const userInfo =
-  //         typeof cookies.userInfo === "string"
-  //           ? JSON.parse(cookies.userInfo)
-  //           : cookies.userInfo;
-  //       setSession(userInfo);
-  //     } catch (error) {
-  //       resetSession();
-  //     }
-  //   }
-  // }, [cookies.userInfo, setSession, resetSession, setLoading]);
+  useEffect(() => {
+    if (!isAuthenticated) {
+      checkAuth()
+        .then((result) => {
+          setSession(result.data);
+          setIsAuthenticated(!!result.data);
+        })
+        .catch(() => {
+          resetSession();
+          setIsAuthenticated(false);
+        });
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (user && !isError) {
+      setSession(user);
+      setIsAuthenticated(true);
+    } else if (isError) {
+      resetSession();
+      setIsAuthenticated(false);
+    }
+  }, [user, isError]);
 
   return (
     <Routes>

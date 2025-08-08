@@ -7,8 +7,8 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { session } = useSessionStore();
-  if (session) {
+  const { isAuthenticated } = useSessionStore();
+  if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }
   return (

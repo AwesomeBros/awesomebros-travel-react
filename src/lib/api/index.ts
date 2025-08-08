@@ -5,4 +5,4 @@ export { findDistrictsByCitiesId } from "./district";
 export { imageUpload } from "./file";
 export { getCoordinate } from "./map";
 export { createPost } from "./post";
-export { getMe } from "./user";
+export { getProfile } from "./user";

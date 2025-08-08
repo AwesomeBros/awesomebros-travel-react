@@ -1,10 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMe } from "../api";
+import { getProfile } from "../api";
 
-export function useGetMe() {
+export function useGetProfile() {
   const query = useQuery({
-    queryKey: ["user"],
-    queryFn: getMe,
+    queryKey: ["user", "profile"],
+    queryFn: getProfile,
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    staleTime: 1000 * 60 * 5,
+    enabled: false,
   });
 
   return query;
