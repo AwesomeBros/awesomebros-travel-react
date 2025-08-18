@@ -1,0 +1,28 @@
+// temp폴더에 업로드 POST https://gyubuntu.duckdns.org/trip_gg/uploads/uploader/image
+// formData로 파일 전송
+// return file url
+
+// 관련 entity에 확정 업로드 POST https://gyubuntu.duckdns.org/trip_gg/uploads/uploader/create
+
+{
+    "id": "", //해당 entity의 ID
+    "images": [""], //위의 https://gyubuntu.duckdns.org/trip_gg/uploads/uploader/image 통해 얻은 url
+    "existingImages": [], // 생성시 빈 배열
+    "entity": "" // 원하는 폴더명 ex) 게시글일 경우 "posts"
+}
+
+// 업로드 수정 PUT https://gyubuntu.duckdns.org/trip_gg/uploads/uploader/update
+
+{
+    "id": "", //해당 entity의 ID
+    "images": [""], //위의 https://gyubuntu.duckdns.org/trip_gg/uploads/uploader/image 통해 얻은 url
+    "existingImages": [], // db에 저장된 old url
+    "entity": "" // 이미 생성한 폴더명
+}
+
+// 업로드 삭제 DELETE https://gyubuntu.duckdns.org/trip_gg/uploads/uploader/delete
+
+{
+    "id": "", // 삭제하려는 entity의 ID (이것만 삭제)
+    "entity": "" // 삭제하려는 이미지의 상위 폴더명 (이건 삭제안함)
+}

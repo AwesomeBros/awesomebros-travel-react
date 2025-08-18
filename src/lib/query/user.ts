@@ -8,7 +8,6 @@ export function useGetProfile() {
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    staleTime: 1000 * 60 * 5,
     enabled: false,
   });
 

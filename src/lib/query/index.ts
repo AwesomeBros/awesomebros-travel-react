@@ -4,6 +4,7 @@ export { useCreateComment, useFindCommentsByPostsId } from "./comment";
 export { useFindCountsByPostsId } from "./count";
 export { useFindCountries } from "./country";
 export { useFindDistrictsByCitiesId } from "./district";
+export { useIsLiked, useToggleLike } from "./like";
 export {
   useCreatePost,
   useFindPostById,

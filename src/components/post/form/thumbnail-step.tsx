@@ -89,7 +89,7 @@ export default function ThumbnailStep({
             <img
               src={image}
               alt="미리보기"
-              className="object-cover object-center"
+              className="size-full object-cover object-center"
               onClick={() => handleImageRemove()}
             />
           </div>

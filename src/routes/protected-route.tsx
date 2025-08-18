@@ -6,10 +6,18 @@ interface Props {
 }
 
 export const ProtectedRoute = ({ redirectTo = "/login" }: Props) => {
-  const { isAuthenticated } = useSessionStore();
+  const { isAuthenticated, isLoading } = useSessionStore();
   const location = useLocation();
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated && isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated && !isLoading) {
     return <Navigate to={redirectTo} state={{ from: location }} replace />;
   }
   return (

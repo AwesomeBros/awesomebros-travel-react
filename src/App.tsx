@@ -3,37 +3,55 @@ import { Route, Routes } from "react-router-dom";
 import Container from "./components/shared";
 import { useAuthenticated } from "./lib/query";
 import { useSessionStore } from "./lib/stores";
-import { Home, Login, PostDetails, PostRedirect, Register } from "./pages";
+import {
+  Home,
+  Login,
+  Mypage,
+  PostDetails,
+  PostRedirect,
+  Register,
+} from "./pages";
 import { ProtectedRoute, PublicRoute } from "./routes";
 
 function App() {
-  const { setSession, resetSession, setIsAuthenticated, isAuthenticated } =
-    useSessionStore();
-  const { data: user, isError, checkAuth } = useAuthenticated();
+  const {
+    setSession,
+    resetSession,
+    setIsAuthenticated,
+    isAuthenticated,
+    setIsLoading,
+  } = useSessionStore();
+  const { data: user, checkAuth } = useAuthenticated();
 
   useEffect(() => {
     if (!isAuthenticated) {
+      setIsLoading(true);
+
       checkAuth()
         .then((result) => {
-          setSession(result.data);
-          setIsAuthenticated(!!result.data);
+          if (result.data) {
+            setSession(result.data);
+            setIsAuthenticated(true);
+          }
         })
-        .catch(() => {
+        .catch((error) => {
+          console.warn("인증 체크 실패:", error?.message);
           resetSession();
           setIsAuthenticated(false);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
-  }, [isAuthenticated]);
+  }, []);
 
   useEffect(() => {
-    if (user && !isError) {
+    if (user) {
       setSession(user);
       setIsAuthenticated(true);
-    } else if (isError) {
-      resetSession();
-      setIsAuthenticated(false);
+      setIsLoading(false);
     }
-  }, [user, isError]);
+  }, [user]);
 
   return (
     <Routes>
@@ -46,7 +64,9 @@ function App() {
           <Route path="/posts/:id/:slug" element={<PostDetails />} />
         </Route>
 
-        <Route element={<ProtectedRoute />}></Route>
+        <Route element={<ProtectedRoute />}>
+          <Route path="/mypage" element={<Mypage />} />
+        </Route>
       </Route>
     </Routes>
   );

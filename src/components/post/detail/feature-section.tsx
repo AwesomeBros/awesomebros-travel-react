@@ -1,9 +1,12 @@
 // import DetailLikeButton from "./detail-like-button";
 
+import { useSessionStore } from "@/lib/stores";
 import type { Post } from "@/lib/types";
+import DetailLikeButton from "./detail-like-button";
 import DetailMap from "./detail-map";
 
 export default function FeatureSection({ post }: { post: Post }) {
+  const { isAuthenticated } = useSessionStore();
   return (
     <div className="flex flex-col gap-5">
       <div className=" md:relative md:flex-row flex flex-col-reverse gap-5">
@@ -17,14 +20,18 @@ export default function FeatureSection({ post }: { post: Post }) {
               __html: post.content,
             }}
           />
-          {/* <div className="flex md:hidden justify-center">
-            <DetailLikeButton postId={post.id} />
-          </div> */}
+          {isAuthenticated && (
+            <div className="flex md:hidden justify-center">
+              <DetailLikeButton post={post} />
+            </div>
+          )}
         </div>
       </div>
-      {/* <div className="hidden md:flex justify-center">
-        <DetailLikeButton postId={post.id} />
-      </div> */}
+      {isAuthenticated && (
+        <div className="hidden md:flex justify-center">
+          <DetailLikeButton post={post} />
+        </div>
+      )}
     </div>
   );
 }

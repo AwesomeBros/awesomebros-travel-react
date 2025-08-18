@@ -1,10 +1,12 @@
 import { NO_IMG, NO_THUMBNAIL } from "@/lib/constants";
+import { useSessionStore } from "@/lib/stores";
 import type { Post } from "@/lib/types";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import CountSection from "./count-section";
+import LikeButton from "./like-button";
 
 const variants = {
   hidden: { opacity: 0 },
@@ -18,6 +20,7 @@ export default function PostItem({
   post: Post;
   index: number;
 }) {
+  const { isAuthenticated } = useSessionStore();
   return (
     <motion.div
       variants={variants}
@@ -76,24 +79,28 @@ export default function PostItem({
             alt="Board Image"
             className="rounded-[10px] object-cover object-center"
           />
-          {/* <div
+          {isAuthenticated && (
+            <div
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              <LikeButton post={post} />
+            </div>
+          )}
+        </div>
+        {isAuthenticated && (
+          <div
+            className="md:hidden"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
             }}
           >
             <LikeButton post={post} />
-          </div> */}
-        </div>
-        {/* <div
-          className="md:hidden"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <LikeButton post={post} />
-        </div> */}
+          </div>
+        )}
       </Link>
     </motion.div>
   );

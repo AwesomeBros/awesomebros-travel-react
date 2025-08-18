@@ -5,6 +5,7 @@ export { findCountsByPostsId } from "./count";
 export { findCountries } from "./country";
 export { findDistrictsByCitiesId } from "./district";
 export { imageUpload } from "./file";
+export { isLiked, toggleLike } from "./like";
 export { getCoordinate } from "./map";
 export {
   createPost,

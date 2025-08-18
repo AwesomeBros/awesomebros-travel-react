@@ -15,8 +15,6 @@ export default function CommentItem({
   comment: Comment;
   index: number;
 }) {
-  console.log("CommentItem rendered", comment);
-
   return (
     <motion.div
       variants={variants}
@@ -28,7 +26,7 @@ export default function CommentItem({
         duration: 0.5,
       }}
       viewport={{ amount: 0 }}
-      className="flex flex-col gap-2 px-5"
+      className="flex flex-col gap-2 w-full min-h-[150px] shadow rounded-lg p-5"
     >
       <div>
         <div className="flex gap-2 items-center">

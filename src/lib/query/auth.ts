@@ -23,13 +23,14 @@ export function useRegister() {
 }
 
 export function useLogin() {
-  const { setSession } = useSessionStore();
+  const { setSession, setIsAuthenticated } = useSessionStore();
+  const navigate = useNavigate();
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
       setSession(data);
-      toast.success(data.message);
-      window.location.href = "/";
+      setIsAuthenticated(true);
+      navigate("/");
     },
     onError: (error) => {
       if (error instanceof Error) {

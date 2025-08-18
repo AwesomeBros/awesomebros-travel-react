@@ -1,8 +1,10 @@
 import { NO_THUMBNAIL } from "@/lib/constants";
+import { useSessionStore } from "@/lib/stores";
 import type { Post } from "@/lib/types";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import CountSection from "./count-section";
+import LikeButton from "./like-button";
 
 const variants = {
   hidden: { opacity: 0 },
@@ -15,7 +17,7 @@ interface Props {
 }
 
 export default function PostCard({ post, index }: Props) {
-  // console.log("PostCard post:", post);
+  const { isAuthenticated } = useSessionStore();
 
   return (
     <motion.div
@@ -41,7 +43,7 @@ export default function PostCard({ post, index }: Props) {
             className="size-full object-cover object-center"
           />
         </Link>
-        {/* <LikeButton post={post} /> */}
+        {isAuthenticated && <LikeButton post={post} />}
       </div>
       <Link
         to={`posts/${post.id}/${encodeURIComponent(post.slug)}`}
