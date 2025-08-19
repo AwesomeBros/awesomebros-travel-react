@@ -17,6 +17,12 @@ export type FilterComponentProps = {
   setDetailFilter: Dispatch<SetStateAction<DetailFilterType | null>>;
 };
 
+export type OpenStore = {
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+};
+
 export type { HomeCities } from "./city";
 export type { Comment } from "./comment";
 export type { Location, Place } from "./map";

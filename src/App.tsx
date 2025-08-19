@@ -10,6 +10,7 @@ import {
   PostDetails,
   PostRedirect,
   Register,
+  UserInfo,
 } from "./pages";
 import { ProtectedRoute, PublicRoute } from "./routes";
 
@@ -66,6 +67,7 @@ function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/mypage" element={<Mypage />} />
+          <Route path="/mypage/info" element={<UserInfo />} />
         </Route>
       </Route>
     </Routes>

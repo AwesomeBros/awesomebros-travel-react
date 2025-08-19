@@ -13,4 +13,4 @@ export {
   findPostsByCities,
   findPostsBySort,
 } from "./post";
-export { getProfile } from "./user";
+export { changePassword, deleteUser, getProfile, updateUser } from "./user";

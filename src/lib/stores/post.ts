@@ -1,13 +1,8 @@
 import type z from "zod/v3";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import type { OpenStore } from "../types";
 import type { PostFormSchema } from "../validations";
-
-interface OpenStore {
-  isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-}
 
 export const usePostOpenStore = create<OpenStore>((set) => ({
   isOpen: false,

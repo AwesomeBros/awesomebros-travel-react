@@ -7,7 +7,7 @@ import { VscKey } from "react-icons/vsc";
 
 const MYPAGE_ITEMS = [
   {
-    href: "/user/info",
+    href: "/mypage/info",
     icon: <AiOutlineUser className="text-xl md:text-3xl" />,
     title: "유저 정보",
     description: "유저 정보 및 프로필 이미지",
@@ -19,19 +19,19 @@ const MYPAGE_ITEMS = [
     description: "게시글 작성하기",
   },
   {
-    href: "/user/posts",
+    href: "/mypage/posts",
     icon: <TbPencilCheck className="text-xl md:text-3xl" />,
     title: "나의 게시글",
     description: "나의 게시글 모아보기",
   },
   {
-    href: "/user/like",
+    href: "/mypage/like",
     icon: <TbHeart className="text-xl md:text-3xl" />,
     title: "좋아요",
     description: "좋아요 목록 모아보기",
   },
   {
-    href: "/user/comments",
+    href: "/mypage/comments",
     icon: <AiOutlineComment className="text-xl md:text-3xl" />,
     title: "나의 댓글",
     description: "나의 댓글 모아보기",

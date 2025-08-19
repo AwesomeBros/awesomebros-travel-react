@@ -5,3 +5,4 @@ export {
 } from "./auth";
 export { CommentFormSchema } from "./comment";
 export { PostFormSchema } from "./post";
+export { PasswordChangeFormSchema, UserFormSchema } from "./user";
