@@ -6,38 +6,49 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { NO_IMG } from "@/lib/constants";
 import { useLogout } from "@/lib/query";
-import { usePostOpenStore, useSessionStore } from "@/lib/stores";
+import {
+  useAuthOpenStore,
+  usePostOpenStore,
+  useSessionStore,
+} from "@/lib/stores";
 import { Menu, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const publicRoute = [
-  {
-    label: "로그인",
-    href: "/login",
-  },
-  {
-    label: "회원가입",
-    href: "/register",
-  },
-];
-
-const privateRoute = [
-  {
-    label: "마이페이지",
-    href: "/mypage",
-  },
-  {
-    label: "로그아웃",
-    href: "#",
-    logout: true,
-  },
-];
-
 export default function UserMenu() {
-  const { onOpen } = usePostOpenStore();
+  const { onOpen: postOpen } = usePostOpenStore();
   const navigate = useNavigate();
   const { mutate: logout } = useLogout();
   const { isAuthenticated, session } = useSessionStore();
+  const { onOpen: loginOpen, setType } = useAuthOpenStore();
+
+  const publicRoute = [
+    {
+      label: "로그인",
+      onOpen: () => {
+        setType("login");
+        loginOpen();
+      },
+    },
+    {
+      label: "회원가입",
+      onOpen: () => {
+        setType("register");
+        loginOpen();
+      },
+    },
+  ];
+
+  const privateRoute = [
+    {
+      label: "마이페이지",
+      href: "/mypage",
+    },
+    {
+      label: "로그아웃",
+      href: "#",
+      logout: true,
+    },
+  ];
 
   return (
     <div className="relative">
@@ -45,14 +56,17 @@ export default function UserMenu() {
         {isAuthenticated ? (
           <button
             className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
-            onClick={() => onOpen()}
+            onClick={postOpen}
           >
             글작성 하기
           </button>
         ) : (
           <button
             className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
-            onClick={() => navigate("/login")}
+            onClick={() => {
+              setType("login");
+              loginOpen();
+            }}
           >
             로그인 후 글작성 하기
           </button>
@@ -96,7 +110,9 @@ export default function UserMenu() {
               <div className="flex flex-col">
                 {publicRoute.map((item) => (
                   <DropdownMenuItem
-                    onClick={() => navigate(item.href)}
+                    onClick={() => {
+                      item.onOpen();
+                    }}
                     key={item.label}
                   >
                     {item.label}

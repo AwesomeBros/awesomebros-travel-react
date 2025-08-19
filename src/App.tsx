@@ -5,11 +5,10 @@ import { useAuthenticated } from "./lib/query";
 import { useSessionStore } from "./lib/stores";
 import {
   Home,
-  Login,
   Mypage,
   PostDetails,
   PostRedirect,
-  Register,
+  ResetPassword,
   UserInfo,
 } from "./pages";
 import { ProtectedRoute, PublicRoute } from "./routes";
@@ -59,8 +58,7 @@ function App() {
       <Route element={<Container />}>
         <Route element={<PublicRoute />}>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/posts/:id" element={<PostRedirect />} />
           <Route path="/posts/:id/:slug" element={<PostDetails />} />
         </Route>

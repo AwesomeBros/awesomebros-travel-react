@@ -1,4 +1,11 @@
-export { useAuthenticated, useLogin, useLogout, useRegister } from "./auth";
+export {
+  useAuthenticated,
+  useLogin,
+  useLogout,
+  useRegister,
+  useResetPassword,
+  useVerifyToken,
+} from "./auth";
 export { useFindCitiesByCountriesId } from "./city";
 export { useCreateComment, useFindCommentsByPostsId } from "./comment";
 export { useFindCountsByPostsId } from "./count";

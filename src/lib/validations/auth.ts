@@ -58,6 +58,7 @@ export const ResetPasswordFormSchema = z
         message: "비밀번호는 특수문자가 포함되어야 합니다.",
       })
       .trim(),
+    token: z.string().min(1, { message: "토큰이 필요합니다." }).trim(),
     confirmPassword: z
       .string()
       .min(1, { message: "비밀번호를 재입력하세요." })

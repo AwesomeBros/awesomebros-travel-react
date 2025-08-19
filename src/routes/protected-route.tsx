@@ -1,4 +1,5 @@
 import { Loader } from "@/components/shared/loader";
+import { useAuthOpenStore } from "@/lib/stores";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useSessionStore } from "../lib/stores/session";
 
@@ -6,8 +7,10 @@ interface Props {
   redirectTo?: string;
 }
 
-export const ProtectedRoute = ({ redirectTo = "/login" }: Props) => {
+export const ProtectedRoute = ({ redirectTo = "/" }: Props) => {
+  // ✅ 기본값을 "/"로 변경
   const { isAuthenticated, isLoading } = useSessionStore();
+  const { onOpen, setType } = useAuthOpenStore();
   const location = useLocation();
 
   if (!isAuthenticated && isLoading) {
@@ -19,8 +22,17 @@ export const ProtectedRoute = ({ redirectTo = "/login" }: Props) => {
   }
 
   if (!isAuthenticated && !isLoading) {
-    return <Navigate to={redirectTo} state={{ from: location }} replace />;
+    setType("login");
+    onOpen();
+    return (
+      <Navigate
+        to={redirectTo}
+        state={{ from: location, openLoginModal: true }}
+        replace
+      />
+    );
   }
+
   return (
     <>
       <Outlet />

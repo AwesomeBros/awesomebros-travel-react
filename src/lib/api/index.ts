@@ -1,4 +1,4 @@
-export { login, logout, register } from "./auth";
+export { login, logout, register, resetPassword, verifyToken } from "./auth";
 export { findCitiesByCountriesId } from "./city";
 export { createComment, findCommentsByPostsId } from "./comment";
 export { findCountsByPostsId } from "./count";
