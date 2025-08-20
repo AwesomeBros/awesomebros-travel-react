@@ -26,7 +26,7 @@ export type OpenStore = {
 export type { HomeCities } from "./city";
 export type { Comment } from "./comment";
 export type { Location, Place } from "./map";
-export type { HomeSort, Post } from "./post";
+export type { HomeSort, Post, PostFilterParams } from "./post";
 export type { Session } from "./session";
 export type { User } from "./user";
 export type { City, Country, District };

@@ -11,6 +11,7 @@ export {
   createPost,
   findPostById,
   findPostsByCities,
+  findPostsBySearch,
   findPostsBySort,
 } from "./post";
 export { changePassword, deleteUser, getProfile, updateUser } from "./user";

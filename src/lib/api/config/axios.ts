@@ -7,11 +7,11 @@ interface FailedRequestQueueItem {
 }
 
 const logoutUser = async () => {
-  try {
-    await axios.post(`${SERVER_URL}/auth/logout`);
-  } catch (err) {
-    console.error("로그아웃 요청 실패:", err);
-  }
+  // try {
+  //   await axios.post(`${SERVER_URL}/auth/logout`);
+  // } catch (err) {
+  //   console.error("로그아웃 요청 실패:", err);
+  // }
 
   try {
     const { resetSession, setIsAuthenticated } = await import(
@@ -24,12 +24,6 @@ const logoutUser = async () => {
     console.error("세션 초기화 실패:", storeError);
   }
 };
-
-export const apiPublic = axios.create({
-  baseURL: SERVER_URL,
-  timeout: 10000,
-  withCredentials: true,
-});
 
 const api = axios.create({
   baseURL: SERVER_URL,

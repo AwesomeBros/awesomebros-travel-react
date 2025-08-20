@@ -1,23 +1,36 @@
-import { findPostById } from "@/lib/api";
-import type { Post } from "@/lib/types";
-import { useNavigate, useParams } from "react-router-dom";
+import PostsList from "@/components/post/posts-list";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import useFilterParams from "@/hooks/use-filter-params";
+import { usePostTypeStore } from "@/lib/stores";
+import { FaThList } from "react-icons/fa";
+import { IoGrid } from "react-icons/io5";
 
-import { useEffect } from "react";
-
-export function PostRedirect() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const posts_id = id ? Number(id) : undefined;
-
-  useEffect(() => {
-    async function fetchAndRedirect() {
-      if (posts_id !== undefined) {
-        const post: Post = await findPostById(posts_id);
-        navigate(`/posts/${id}/${encodeURIComponent(post.slug)}`);
-      }
-    }
-    fetchAndRedirect();
-  }, [id, posts_id, navigate]);
-
-  return null;
+export function Posts() {
+  const params = useFilterParams();
+  const { postType, setPostType } = usePostTypeStore();
+  return (
+    <div className="flex flex-col gap-8 mt-7 bg-white p-4 rounded-xl shadow-md px-8">
+      <div className="flex justify-between items-center">
+        <div>
+          <div className="text-xl font-medium">{"후기 목록"}</div>
+          <div>
+            <p className="text-muted-foreground text-sm">
+              {"여행 후기를 작성하고 공유해보세요!"}
+            </p>
+          </div>
+        </div>
+        <Tabs value={postType}>
+          <TabsList className="w-full">
+            <TabsTrigger value="list" onClick={() => setPostType("list")}>
+              <FaThList />
+            </TabsTrigger>
+            <TabsTrigger value="gallery" onClick={() => setPostType("gallery")}>
+              <IoGrid />
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+      <PostsList params={params} postType={postType} />
+    </div>
+  );
 }

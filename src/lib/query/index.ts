@@ -16,6 +16,7 @@ export {
   useCreatePost,
   useFindPostById,
   useFindPostsByCities,
+  useFindPostsBySearch,
   useFindPostsBySort,
 } from "./post";
 export {

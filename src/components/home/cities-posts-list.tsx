@@ -32,7 +32,7 @@ export default function CitiesPostsList() {
       <div className="text-black text-2xl font-medium mb-5">도시별 후기</div>
       {isDesktop ? (
         <Tabs value={city}>
-          <TabsList className="w-full flex flex-wrap">
+          <TabsList className="w-full flex flex-wrap shadow-md">
             {CITIES.map((city) => (
               <TabsTrigger
                 value={city}

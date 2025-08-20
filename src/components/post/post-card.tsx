@@ -34,7 +34,7 @@ export default function PostCard({ post, index }: Props) {
     >
       <div className="relative aspect-[2/1.5] rounded-lg overflow-hidden">
         <Link
-          to={`posts/${post.id}/${encodeURIComponent(post.slug)}`}
+          to={`/posts/${post.id}/${encodeURIComponent(post.slug)}`}
           key={post.id}
         >
           <img

@@ -10,7 +10,7 @@ export default function LikeButton({ post }: { post: Post }) {
   const { session } = useSessionStore();
   const toggleLike = useToggleLike(post.id);
   const { data: isLiked } = useIsLiked(post.id);
-  console.log("session", session);
+  // console.log("session", session);
   const navigate = useNavigate();
   function toggleLikeHandler() {
     if (!session) {

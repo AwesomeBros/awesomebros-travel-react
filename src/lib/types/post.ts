@@ -23,3 +23,10 @@ export type Post = z.infer<typeof PostFormSchema> & {
   city: City;
   country: Country;
 };
+
+export type PostFilterParams = {
+  country?: string;
+  city?: string;
+  district?: string;
+  page?: string;
+};

@@ -4,9 +4,10 @@ import {
   createPost,
   findPostById,
   findPostsByCities,
+  findPostsBySearch,
   findPostsBySort,
 } from "../api";
-import type { HomeCities, HomeSort } from "../types";
+import type { HomeCities, HomeSort, PostFilterParams } from "../types";
 
 export function useCreatePost() {
   const queryClient = useQueryClient();
@@ -53,3 +54,13 @@ export function useFindPostById(posts_id?: number) {
   });
   return query;
 }
+
+export const useFindPostsBySearch = (params: PostFilterParams) => {
+  console.log("params", params);
+
+  const query = useQuery({
+    queryKey: ["posts", params],
+    queryFn: () => findPostsBySearch(params),
+  });
+  return query;
+};

@@ -1,107 +1,32 @@
-import { Loader } from "@/components/shared/loader";
-import { useHydratedStore } from "@/hooks/store/use-hydrate-store";
-import { useSession } from "next-auth/react";
-import { FaThList } from "react-icons/fa";
-import { IoGrid } from "react-icons/io5";
-
-import { useFindPostsAll } from "@/hooks/query/use-posts";
-import { usePostTypeStore } from "@/hooks/store";
-import { PaginationWithLinks } from "../ui/pagination-with-links";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import PostCard from "./post-card";
-import PostItem from "./post-item";
+import { useFindPostsBySearch } from "@/lib/query";
+import type { PostFilterParams } from "@/lib/types";
+import { Loader } from "../shared/loader";
+import PostCardList from "./post-card-list";
+import PostItemList from "./post-item-list";
 
 interface Props {
-  params: {
-    country?: string;
-    city?: string;
-    district?: string;
-    page?: string;
-    sort?: string;
-  };
+  params: PostFilterParams;
+  postType: "list" | "gallery";
 }
 
-export default function PostsList({ params }: Props) {
-  const { data: session } = useSession();
-  const isHydrated = useHydratedStore(
-    usePostTypeStore,
-    (state) => state !== undefined
-  );
-  const { postType, setPostType } = usePostTypeStore();
-  const { data: body } = useFindPostsAll(params);
-  if (!body) return null;
-  const postsAll = body.data || [];
-  const page = body.page || 1;
-  const take = body.limit || 12;
-  const totalCount = body.totalCount || 0;
-  // console.log("PostsList data:", body);
-  if (!isHydrated) {
+export default function PostsList({ params, postType }: Props) {
+  const { data, isLoading } = useFindPostsBySearch(params);
+
+  if (isLoading) {
     return (
-      <div className="w-full h-[calc(100vh-97px-80px)] flex justify-center items-center">
+      <div className="w-full min-h-[639px] flex items-center justify-center">
         <Loader />
       </div>
     );
   }
 
+  const posts = data.content || [];
   return (
-    <div className="w-full max-w-[1200px] flex flex-col gap-5 p-4 rounded-xl shadow-md bg-white">
-      <div className="flex justify-between items-center">
-        <div>
-          <div className="text-xl font-medium">{"후기 목록"}</div>
-          <div>
-            <p className="text-muted-foreground text-sm">
-              {"여행 후기를 작성하고 공유해보세요!"}
-            </p>
-          </div>
-        </div>
-        <Tabs value={postType}>
-          <TabsList className="w-full">
-            <TabsTrigger value="list" onClick={() => setPostType("list")}>
-              <FaThList />
-            </TabsTrigger>
-            <TabsTrigger value="gallery" onClick={() => setPostType("gallery")}>
-              <IoGrid />
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </div>
-      {postType === "list" && (
-        <div className="w-full grid gap-6">
-          {postsAll.length > 0 ? (
-            postsAll.map((post: PostType, index: number) => (
-              <PostItem
-                key={post.id}
-                post={post}
-                index={index}
-                userId={session?.user.id}
-              />
-            ))
-          ) : (
-            <div className="w-full h-30 flex justify-center items-center">
-              <p className="text-muted-foreground">
-                {"작성된 후기가 없습니다."}
-              </p>
-            </div>
-          )}
-        </div>
-      )}
-      {postType === "gallery" && (
-        <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-6">
-          {postsAll.length > 0 ? (
-            postsAll.map((post: PostType, index: number) => (
-              <PostCard key={post.id} post={post} index={index} />
-            ))
-          ) : (
-            <div className="col-span-1 md:col-span-4 h-30 flex justify-center items-center">
-              <p className="text-muted-foreground">
-                {"작성된 후기가 없습니다."}
-              </p>
-            </div>
-          )}
-        </div>
-      )}
-      {postsAll.length > 0 && (
-        <PaginationWithLinks page={page} take={take} totalCount={totalCount} />
+    <div>
+      {postType === "list" ? (
+        <PostItemList posts={posts} />
+      ) : (
+        <PostCardList posts={posts} />
       )}
     </div>
   );

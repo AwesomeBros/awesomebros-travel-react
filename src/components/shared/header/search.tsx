@@ -1,13 +1,69 @@
+import { useFindCountries } from "@/lib/query";
 import { useDetailFilterStore, useFilterStore } from "@/lib/stores";
+import type { Country } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { SearchIcon } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { SearchFilter } from "./search-filter";
 
 export default function Search() {
   const { detailFilter, setDetailFilter } = useDetailFilterStore();
-  const { filterValue, showFilter, setShowFilter } = useFilterStore();
+  const { filterValue, setFilterValue, showFilter, setShowFilter } =
+    useFilterStore();
   const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const { data: countries } = useFindCountries();
+
+  useEffect(() => {
+    const countryParam = searchParams.get("country");
+    const cityParam = searchParams.get("city");
+    const districtParam = searchParams.get("district");
+
+    if (countryParam || cityParam || districtParam) {
+      const selectedCountry = countries?.find(
+        (country: Country) => country.name === countryParam
+      );
+
+      setFilterValue({
+        country: {
+          id: selectedCountry?.id || 0,
+          name: countryParam || "",
+        },
+        city: {
+          id: 0,
+          name: cityParam || "전체",
+        },
+        district: {
+          id: 0,
+          name: districtParam || "전체",
+        },
+      });
+    }
+  }, [searchParams, countries, setFilterValue]);
+
+  function handleSearch() {
+    setShowFilter(false);
+    setDetailFilter(null);
+
+    const params = new URLSearchParams();
+
+    if (filterValue.country.name) {
+      params.append("country", filterValue.country.name);
+    }
+
+    if (filterValue.city.name && filterValue.city.name !== "전체") {
+      params.append("city", filterValue.city.name);
+    }
+
+    if (filterValue.district.name && filterValue.district.name !== "전체") {
+      params.append("district", filterValue.district.name);
+    }
+
+    const queryString = params.toString();
+    navigate(`/posts${queryString ? `?${queryString}` : ""}`);
+  }
 
   return !showFilter ? (
     <div className="border-[1px] w-full md:w-auto py-2 rounded-full shadow-sm hover:shadow-md transition cursor-pointer">
@@ -104,19 +160,7 @@ export default function Search() {
         <button
           type="button"
           className="h-10 mx-4 sm:w-24 my-auto flex justify-center gap-1 px-3 py-2 bg-primary rounded-full text-white cursor-pointer hover:shadow hover:bg-primary/90 transition"
-          onClick={() => {
-            setShowFilter(false);
-            setDetailFilter(null);
-            navigate(
-              `/posts?${
-                filterValue.country.name &&
-                "country=" + filterValue.country.name
-              }${filterValue.city.name && "&city=" + filterValue.city.name}${
-                filterValue.district.name &&
-                "&district=" + filterValue.district.name
-              }`
-            );
-          }}
+          onClick={handleSearch}
         >
           <SearchIcon size={18} className="my-auto" />
           <div className="my-auto">검색</div>

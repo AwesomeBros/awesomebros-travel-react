@@ -76,6 +76,27 @@ const CityFilter = () => {
   return (
     <FilterContainer title="도시 선택하기" isShow={detailFilter === "city"}>
       <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
+        <button
+          className={cn(
+            "border rounded-lg px-5 py-2.5 hover:bg-gray-200 focus:bg-primary focus:text-white cursor-pointer"
+          )}
+          onClick={() => {
+            setFilterValue({
+              ...filterValue,
+              city: {
+                id: 0,
+                name: "전체",
+              },
+              district: {
+                id: 0,
+                name: "전체",
+              },
+            });
+            setDetailFilter("");
+          }}
+        >
+          전체
+        </button>
         {cities.map((city: City) => (
           <button
             key={city.id}
@@ -119,6 +140,23 @@ const DistrictFilter = () => {
   return (
     <FilterContainer title="지역 선택하기" isShow={detailFilter === "district"}>
       <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
+        <button
+          className={cn(
+            "border rounded-lg px-5 py-2.5 hover:bg-gray-200 focus:bg-primary focus:text-white cursor-pointer"
+          )}
+          onClick={() => {
+            setFilterValue({
+              ...filterValue,
+              district: {
+                id: 0,
+                name: "전체",
+              },
+            });
+            setDetailFilter("");
+          }}
+        >
+          전체
+        </button>
         {districts.map((district: District) => (
           <button
             key={district.id}

@@ -8,6 +8,7 @@ import {
   Mypage,
   PostDetails,
   PostRedirect,
+  Posts,
   ResetPassword,
   UserInfo,
 } from "./pages";
@@ -59,6 +60,7 @@ function App() {
         <Route element={<PublicRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/posts" element={<Posts />} />
           <Route path="/posts/:id" element={<PostRedirect />} />
           <Route path="/posts/:id/:slug" element={<PostDetails />} />
         </Route>
