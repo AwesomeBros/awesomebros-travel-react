@@ -1,5 +1,6 @@
 export { ResetPassword } from "./auth/reset-password/page";
 export { Home } from "./home/page";
+export { MyComments } from "./mypage/comments/page";
 export { UserInfo } from "./mypage/info/page";
 export { MyLikedPosts } from "./mypage/likes/page";
 export { Mypage } from "./mypage/page";

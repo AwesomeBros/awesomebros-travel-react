@@ -33,3 +33,8 @@ export async function findLikedPostsByUserId(page?: string) {
   const response = await api.get(`/users/liked-posts`, { params: { page } });
   return response.data;
 }
+
+export async function findCommentsByUserId(page?: string) {
+  const response = await api.get(`/users/my-comments`, { params: { page } });
+  return response.data;
+}

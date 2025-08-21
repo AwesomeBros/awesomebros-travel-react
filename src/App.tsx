@@ -5,6 +5,7 @@ import { useAuthenticated } from "./lib/query";
 import { useSessionStore } from "./lib/stores";
 import {
   Home,
+  MyComments,
   MyLikedPosts,
   Mypage,
   MyPosts,
@@ -72,6 +73,7 @@ function App() {
           <Route path="/mypage/info" element={<UserInfo />} />
           <Route path="/mypage/posts" element={<MyPosts />} />
           <Route path="/mypage/likes" element={<MyLikedPosts />} />
+          <Route path="/mypage/comments" element={<MyComments />} />
         </Route>
       </Route>
     </Routes>

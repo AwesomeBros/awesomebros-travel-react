@@ -4,6 +4,7 @@ import type z from "zod/v3";
 import {
   changePassword,
   deleteUser,
+  findCommentsByUserId,
   findLikedPostsByUserId,
   findPostsByUserId,
   getProfile,
@@ -64,16 +65,26 @@ export const useChangePassword = () => {
 export function useFindPostsByUserId(page?: string, users_id?: string) {
   const query = useQuery({
     enabled: !!users_id,
-    queryKey: ["posts", { users_id, page }],
+    queryKey: ["mypage", "posts", { users_id, page }],
     queryFn: () => findPostsByUserId(page),
   });
   return query;
 }
+
 export function useFindLikedPostsByUserId(page?: string, users_id?: string) {
   const query = useQuery({
     enabled: !!users_id,
-    queryKey: ["posts", "liked", { users_id, page }],
+    queryKey: ["mypage", "likes", { users_id, page }],
     queryFn: () => findLikedPostsByUserId(page),
+  });
+  return query;
+}
+
+export function useFindCommentsByUserId(page?: string, users_id?: string) {
+  const query = useQuery({
+    enabled: !!users_id,
+    queryKey: ["mypage", "comments", { users_id, page }],
+    queryFn: () => findCommentsByUserId(page),
   });
   return query;
 }

@@ -17,6 +17,7 @@ export {
 export {
   changePassword,
   deleteUser,
+  findCommentsByUserId,
   findLikedPostsByUserId,
   findPostsByUserId,
   getProfile,

@@ -48,7 +48,7 @@ export function useToggleLike() {
     onSuccess: (data) => {
       toast.success(data);
       queryClient.invalidateQueries({
-        queryKey: ["posts", "liked"],
+        queryKey: ["mypage", "likes"],
       });
     },
   });

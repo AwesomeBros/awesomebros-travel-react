@@ -1,5 +1,6 @@
 import useFilterParams from "@/hooks/use-filter-params";
 import {
+  useFindCommentsByUserId,
   useFindLikedPostsByUserId,
   useFindPostsBySearch,
   useFindPostsByUserId,
@@ -23,7 +24,15 @@ export default function Footer() {
   const { data: likeData, isLoading: isLikeLoading } =
     useFindLikedPostsByUserId(params.page, session?.id);
 
-  const paginationRoutes = ["/posts?", "/mypage/posts", "/mypage/likes"];
+  const { data: commentData, isLoading: isCommentLoading } =
+    useFindCommentsByUserId(params.page, session?.id);
+
+  const paginationRoutes = [
+    "/posts?",
+    "/mypage/posts",
+    "/mypage/likes",
+    "/mypage/comments",
+  ];
   const isPaginationRoute = paginationRoutes.some((route) =>
     href.includes(route)
   );
@@ -32,12 +41,15 @@ export default function Footer() {
   if (href.includes("/mypage/posts")) {
     data = userData;
     isLoading = isUserLoading;
-  } else if (href.includes("/posts?")) {
-    data = searchData;
-    isLoading = isSearchLoading;
   } else if (href.includes("/mypage/likes")) {
     data = likeData;
     isLoading = isLikeLoading;
+  } else if (href.includes("/mypage/comments")) {
+    data = commentData;
+    isLoading = isCommentLoading;
+  } else if (href.includes("/posts?")) {
+    data = searchData;
+    isLoading = isSearchLoading;
   } else {
     data = null;
     isLoading = false;
