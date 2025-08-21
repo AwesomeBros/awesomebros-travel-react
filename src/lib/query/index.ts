@@ -22,6 +22,7 @@ export {
 export {
   useChangePassword,
   useDeleteUser,
+  useFindLikedPostsByUserId,
   useFindPostsByUserId,
   useGetProfile,
   useUpdateUser,

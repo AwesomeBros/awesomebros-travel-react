@@ -26,6 +26,10 @@ export async function changePassword(
 
 export async function findPostsByUserId(page?: string) {
   const response = await api.get(`/users/my-posts`, { params: { page } });
-  console.log("내 게시글 목록", response.data);
+  return response.data;
+}
+
+export async function findLikedPostsByUserId(page?: string) {
+  const response = await api.get(`/users/liked-posts`, { params: { page } });
   return response.data;
 }

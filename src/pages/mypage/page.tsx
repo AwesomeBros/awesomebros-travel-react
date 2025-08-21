@@ -25,7 +25,7 @@ const MYPAGE_ITEMS = [
     description: "나의 게시글 모아보기",
   },
   {
-    href: "/mypage/like",
+    href: "/mypage/likes",
     icon: <TbHeart className="text-xl md:text-3xl" />,
     title: "좋아요",
     description: "좋아요 목록 모아보기",

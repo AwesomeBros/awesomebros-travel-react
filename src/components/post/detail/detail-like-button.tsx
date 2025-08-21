@@ -9,7 +9,7 @@ import { toast } from "sonner";
 export default function DetailLikeButton({ post }: { post: Post }) {
   const { session } = useSessionStore();
 
-  const toggleLike = useToggleLike(post.id);
+  const { mutate: toggleLike } = useToggleLike();
   const { data: isLiked } = useIsLiked(post.id);
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ export default function DetailLikeButton({ post }: { post: Post }) {
       toast.error("로그인이 필요한 서비스입니다.");
       navigate("/login");
     } else {
-      toggleLike.mutate();
+      toggleLike(post.id);
     }
   }
 

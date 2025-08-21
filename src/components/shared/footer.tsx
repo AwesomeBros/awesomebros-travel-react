@@ -1,5 +1,9 @@
 import useFilterParams from "@/hooks/use-filter-params";
-import { useFindPostsBySearch, useFindPostsByUserId } from "@/lib/query";
+import {
+  useFindLikedPostsByUserId,
+  useFindPostsBySearch,
+  useFindPostsByUserId,
+} from "@/lib/query";
 import { useSessionStore } from "@/lib/stores";
 import { PaginationWithLinks } from "../ui/pagination-with-links";
 
@@ -16,7 +20,10 @@ export default function Footer() {
     session?.id
   );
 
-  const paginationRoutes = ["/posts?", "/mypage/posts"];
+  const { data: likeData, isLoading: isLikeLoading } =
+    useFindLikedPostsByUserId(params.page, session?.id);
+
+  const paginationRoutes = ["/posts?", "/mypage/posts", "/mypage/likes"];
   const isPaginationRoute = paginationRoutes.some((route) =>
     href.includes(route)
   );
@@ -28,6 +35,9 @@ export default function Footer() {
   } else if (href.includes("/posts?")) {
     data = searchData;
     isLoading = isSearchLoading;
+  } else if (href.includes("/mypage/likes")) {
+    data = likeData;
+    isLoading = isLikeLoading;
   } else {
     data = null;
     isLoading = false;

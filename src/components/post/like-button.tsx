@@ -1,24 +1,13 @@
 import { useIsLiked, useToggleLike } from "@/lib/query";
-import { useSessionStore } from "@/lib/stores";
 import type { Post } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 import { Icon } from "../ui/icon";
 
 export default function LikeButton({ post }: { post: Post }) {
-  const { session } = useSessionStore();
-  const toggleLike = useToggleLike(post.id);
+  const { mutate: toggleLike } = useToggleLike();
   const { data: isLiked } = useIsLiked(post.id);
-  // console.log("session", session);
-  const navigate = useNavigate();
   function toggleLikeHandler() {
-    if (!session) {
-      toast.error("로그인이 필요한 서비스입니다.");
-      navigate("/login");
-    } else {
-      toggleLike.mutate();
-    }
+    toggleLike(post.id);
   }
 
   return (

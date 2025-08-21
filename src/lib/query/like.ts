@@ -2,11 +2,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { isLiked, toggleLike } from "../api";
 
-export function useToggleLike(posts_id?: number) {
+export function useToggleLike() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: () => toggleLike(posts_id),
-    onMutate: async () => {
+    mutationFn: (posts_id?: number) => toggleLike(posts_id),
+    onMutate: async (posts_id?: number) => {
       await queryClient.cancelQueries({
         queryKey: ["like", { posts_id }],
       });
@@ -37,7 +37,7 @@ export function useToggleLike(posts_id?: number) {
       queryClient.setQueryData(["like", { posts_id }], context?.previousLike);
       toast.error("좋아요를 처리하는 중 오류가 발생했습니다.");
     },
-    onSettled: () => {
+    onSettled: (posts_id?: number) => {
       queryClient.invalidateQueries({
         queryKey: ["like", { posts_id }],
       });
@@ -47,6 +47,9 @@ export function useToggleLike(posts_id?: number) {
     },
     onSuccess: (data) => {
       toast.success(data);
+      queryClient.invalidateQueries({
+        queryKey: ["posts", "liked"],
+      });
     },
   });
   return mutation;

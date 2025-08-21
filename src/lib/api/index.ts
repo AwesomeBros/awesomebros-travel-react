@@ -17,6 +17,7 @@ export {
 export {
   changePassword,
   deleteUser,
+  findLikedPostsByUserId,
   findPostsByUserId,
   getProfile,
   updateUser,

@@ -44,6 +44,7 @@ export function MyPosts() {
       console.log(`${posts_id} 게시글 삭제완료`);
     }
   };
+
   return (
     <div className="w-full mx-auto max-w-7xl px-4 md:px-0">
       <ConfirmDialog />
