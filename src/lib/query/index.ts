@@ -22,6 +22,7 @@ export {
 export {
   useChangePassword,
   useDeleteUser,
+  useFindPostsByUserId,
   useGetProfile,
   useUpdateUser,
 } from "./user";

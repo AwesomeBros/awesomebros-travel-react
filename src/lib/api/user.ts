@@ -23,3 +23,9 @@ export async function changePassword(
   const response = await api.post("/users/change-password", values);
   return response.data;
 }
+
+export async function findPostsByUserId(page?: string) {
+  const response = await api.get(`/users/my-posts`, { params: { page } });
+  console.log("내 게시글 목록", response.data);
+  return response.data;
+}

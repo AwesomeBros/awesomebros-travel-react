@@ -1,12 +1,40 @@
 import useFilterParams from "@/hooks/use-filter-params";
-import { useFindPostsBySearch } from "@/lib/query";
+import { useFindPostsBySearch, useFindPostsByUserId } from "@/lib/query";
+import { useSessionStore } from "@/lib/stores";
 import { PaginationWithLinks } from "../ui/pagination-with-links";
 
 export default function Footer() {
   const href = window.location.href;
   const params = useFilterParams();
-  const { data, isLoading } = useFindPostsBySearch(params);
-  if (isLoading) return null;
+  const { session } = useSessionStore();
+
+  const { data: searchData, isLoading: isSearchLoading } =
+    useFindPostsBySearch(params);
+
+  const { data: userData, isLoading: isUserLoading } = useFindPostsByUserId(
+    params.page,
+    session?.id
+  );
+
+  const paginationRoutes = ["/posts?", "/mypage/posts"];
+  const isPaginationRoute = paginationRoutes.some((route) =>
+    href.includes(route)
+  );
+
+  let data, isLoading;
+  if (href.includes("/mypage/posts")) {
+    data = userData;
+    isLoading = isUserLoading;
+  } else if (href.includes("/posts?")) {
+    data = searchData;
+    isLoading = isSearchLoading;
+  } else {
+    data = null;
+    isLoading = false;
+  }
+
+  if (isLoading || !data) return null;
+
   const totalCount = data.totalElements || 0;
   const page = data.page || 1;
   const size = data.size || 8;
@@ -14,7 +42,7 @@ export default function Footer() {
   return (
     <footer className="bg-white h-16 px-2">
       <div className="size-full flex items-center justify-center border-b-gray-200 border-b">
-        {href.includes("/posts?") && params ? (
+        {isPaginationRoute ? (
           totalCount > 0 && (
             <PaginationWithLinks
               page={page}

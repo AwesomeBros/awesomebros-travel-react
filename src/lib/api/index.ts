@@ -14,4 +14,10 @@ export {
   findPostsBySearch,
   findPostsBySort,
 } from "./post";
-export { changePassword, deleteUser, getProfile, updateUser } from "./user";
+export {
+  changePassword,
+  deleteUser,
+  findPostsByUserId,
+  getProfile,
+  updateUser,
+} from "./user";

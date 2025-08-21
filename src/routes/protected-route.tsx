@@ -8,7 +8,6 @@ interface Props {
 }
 
 export const ProtectedRoute = ({ redirectTo = "/" }: Props) => {
-  // ✅ 기본값을 "/"로 변경
   const { isAuthenticated, isLoading } = useSessionStore();
   const { onOpen, setType } = useAuthOpenStore();
   const location = useLocation();

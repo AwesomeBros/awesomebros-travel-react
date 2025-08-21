@@ -40,7 +40,7 @@ export default function ThumbnailStep({
     setImage(null);
   };
 
-  console.log("formError", form.formState.errors);
+  // console.log("formError", form.formState.errors);
 
   return (
     <>

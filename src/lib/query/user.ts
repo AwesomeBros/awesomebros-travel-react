@@ -1,7 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import type z from "zod/v3";
-import { changePassword, deleteUser, getProfile, updateUser } from "../api";
+import {
+  changePassword,
+  deleteUser,
+  findPostsByUserId,
+  getProfile,
+  updateUser,
+} from "../api";
 import type { PasswordChangeFormSchema, UserFormSchema } from "../validations";
 
 export function useGetProfile() {
@@ -53,3 +59,13 @@ export const useChangePassword = () => {
   });
   return mutation;
 };
+
+export function useFindPostsByUserId(page?: string, users_id?: string) {
+  const query = useQuery({
+    enabled: !!users_id,
+    queryKey: ["posts", { users_id, page }],
+    queryFn: () => findPostsByUserId(page),
+    staleTime: 1000 * 60 * 5,
+  });
+  return query;
+}

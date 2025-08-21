@@ -19,6 +19,7 @@ export type Post = z.infer<typeof PostFormSchema> & {
     commentCount: number;
     viewCount: number;
   };
+  district_name: string;
   district: District;
   city: City;
   country: Country;

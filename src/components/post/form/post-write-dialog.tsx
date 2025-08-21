@@ -15,7 +15,7 @@ export default function PostWriteDialog() {
   const { postForm, setPostForm, resetPostForm } = usePostFormStore();
   const createPost = useCreatePost();
   function onSubmit(data: z.infer<typeof PostFormSchema>) {
-    console.log("PostWriteDialog onSubmit data:", data);
+    // console.log("PostWriteDialog onSubmit data:", data);
 
     createPost.mutate(data, {
       onSuccess: () => {

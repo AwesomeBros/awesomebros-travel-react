@@ -56,8 +56,6 @@ export function useFindPostById(posts_id?: number) {
 }
 
 export const useFindPostsBySearch = (params: PostFilterParams) => {
-  console.log("params", params);
-
   const query = useQuery({
     queryKey: ["posts", params],
     queryFn: () => findPostsBySearch(params),

@@ -7,13 +7,8 @@ interface FailedRequestQueueItem {
 }
 
 const logoutUser = async () => {
-  // try {
-  //   await axios.post(`${SERVER_URL}/auth/logout`);
-  // } catch (err) {
-  //   console.error("로그아웃 요청 실패:", err);
-  // }
-
   try {
+    await api.post("/auth/logout", null);
     const { resetSession, setIsAuthenticated } = await import(
       "../../stores"
     ).then((m) => m.useSessionStore.getState());
@@ -56,12 +51,12 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     if (axios.isAxiosError(error) && error.response?.data?.message) {
-      if (error.response.status !== 403) {
+      if (error.response.status !== 401) {
         throw new Error(error.response.data.message);
       }
     }
 
-    if (error.response?.status === 403 && !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       if (refreshAttempts >= MAX_REFRESH_ATTEMPTS) {
@@ -103,7 +98,7 @@ api.interceptors.response.use(
         // console.log(
         //   ` 토큰 재발급 시도 (${refreshAttempts}/${MAX_REFRESH_ATTEMPTS})`
         // );
-        await axios.post(`${SERVER_URL}/users/refresh-token`, null, {
+        await axios.post(`${SERVER_URL}/auth/refresh-token`, null, {
           withCredentials: true,
         });
         processQueue();

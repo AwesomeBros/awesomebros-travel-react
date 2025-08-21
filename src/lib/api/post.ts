@@ -26,13 +26,9 @@ export async function findPostById(id?: number) {
   const response = await api.get(`/posts/${id}`);
   return response.data;
 }
-
 export async function findPostsBySearch(params: PostFilterParams) {
-  console.log("api params", params);
   const response = await api.get("/posts/search", {
     params,
   });
-  console.log("response", response.data);
-
   return response.data;
 }

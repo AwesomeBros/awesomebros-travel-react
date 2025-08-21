@@ -29,7 +29,6 @@ export function useLogin() {
     onSuccess: (data) => {
       setSession(data);
       setIsAuthenticated(true);
-      window.location.href = "/";
     },
     onError: (error) => {
       if (error instanceof Error) {
@@ -41,11 +40,15 @@ export function useLogin() {
 }
 
 export function useLogout() {
+  const navigate = useNavigate();
+  const { resetSession, setIsAuthenticated } = useSessionStore();
   const mutation = useMutation({
     mutationFn: async () => logout(),
     onSuccess: (data) => {
       toast.success(data.message);
-      window.location.href = "/login";
+      resetSession();
+      setIsAuthenticated(false);
+      navigate("/");
     },
     onError: (error) => {
       if (error instanceof Error) {

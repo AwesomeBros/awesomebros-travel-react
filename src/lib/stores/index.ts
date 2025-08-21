@@ -40,6 +40,7 @@ export const useFilterStore = create<FilterStore>((set) => ({
 
 export { useAuthOpenStore } from "./auth";
 export {
+  usePostEditOpenStore,
   usePostFormStore,
   usePostOpenStore,
   usePostTypeStore,

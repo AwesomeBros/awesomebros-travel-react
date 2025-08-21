@@ -21,7 +21,7 @@ export async function register(value: z.infer<typeof RegisterFormSchema>) {
 
 export async function login(value: z.infer<typeof LoginFormSchema>) {
   const data = LoginFormSchema.parse(value);
-  const response = await api.post("/users/login", {
+  const response = await api.post("/auth/login", {
     username: data.username,
     password: data.password,
   });
@@ -29,7 +29,7 @@ export async function login(value: z.infer<typeof LoginFormSchema>) {
 }
 
 export async function logout() {
-  const response = await api.post("/users/logout");
+  const response = await api.post("/auth/logout");
   return response.data;
 }
 

@@ -17,7 +17,7 @@ import {
 
 export function LoginForm() {
   const { mutate: login } = useLogin();
-  const { setType } = useAuthOpenStore();
+  const { setType, onClose } = useAuthOpenStore();
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
@@ -27,7 +27,11 @@ export function LoginForm() {
   });
 
   function onSubmit(values: z.infer<typeof LoginFormSchema>) {
-    login(values);
+    login(values, {
+      onSuccess: () => {
+        onClose();
+      },
+    });
   }
 
   return (

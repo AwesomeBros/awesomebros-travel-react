@@ -57,6 +57,17 @@ export const usePostTypeStore = create<PostTypeStore>()(
   )
 );
 
+interface EditOpenStore extends OpenStore {
+  posts_id?: number;
+  onOpen: (posts_id?: number) => void;
+}
+
+export const usePostEditOpenStore = create<EditOpenStore>((set) => ({
+  isOpen: false,
+  onOpen: (posts_id) => set({ isOpen: true, posts_id }),
+  onClose: () => set({ isOpen: false }),
+}));
+
 interface SearchStore {
   q?: string;
   setQ: (q: string) => void;
