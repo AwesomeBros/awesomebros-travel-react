@@ -4,6 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useConfirm } from "@/hooks/use-confirm";
 import { NO_IMG } from "@/lib/constants";
 import { useLogout } from "@/lib/query";
 import {
@@ -16,6 +17,10 @@ import { useNavigate } from "react-router-dom";
 
 export default function UserMenu() {
   const { onOpen: postOpen } = usePostOpenStore();
+  const [ConfirmDialog, confirm] = useConfirm(
+    "정말로 로그아웃 하시겠습니까?",
+    ""
+  );
   const navigate = useNavigate();
   const { mutate: logout } = useLogout();
   const { isAuthenticated, session } = useSessionStore();
@@ -52,6 +57,7 @@ export default function UserMenu() {
 
   return (
     <div className="relative">
+      <ConfirmDialog />
       <div className="flex flex-row items-center gap-3">
         {isAuthenticated ? (
           <button
@@ -96,9 +102,13 @@ export default function UserMenu() {
               <div className="flex flex-col">
                 {privateRoute.map((item) => (
                   <DropdownMenuItem
-                    onClick={() => {
-                      navigate(item.href);
-                      item.logout && logout();
+                    onClick={async () => {
+                      if (item.logout) {
+                        const ok = await confirm();
+                        ok && logout();
+                      } else {
+                        navigate(item.href);
+                      }
                     }}
                     key={item.label}
                   >
