@@ -1,24 +1,23 @@
-"use client";
-
-import { useFindPostById, useUpdatePost } from "@/hooks/query/use-posts";
-import { usePostEditOpenStore } from "@/hooks/store";
-import { PostFormType } from "@/type";
+import { useFindPostById, useUpdatePost } from "@/lib/query";
+import { usePostEditOpenStore } from "@/lib/stores";
+import type { PostFormSchema } from "@/lib/validations";
+import type z from "zod/v3";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "../../ui/dialog";
-import PostForm from "../post-form";
+import PostForm from "./post-form";
 
 export default function PostEditDialog() {
-  const { isOpen, onClose, id } = usePostEditOpenStore();
-  const updatePost = useUpdatePost(id);
-  const { data: post, isLoading } = useFindPostById(id);
+  const { isOpen, onClose, posts_id } = usePostEditOpenStore();
+  const { mutate: updatePost } = useUpdatePost(posts_id);
+  const { data: post, isLoading } = useFindPostById(posts_id);
   if (isLoading || !post) return null;
   // console.log("Post data:", post);
 
-  const defaultValues: PostFormType = {
+  const defaultValues: z.infer<typeof PostFormSchema> = {
     url: post.url || "",
     title: post.title || "",
     locations: post.locations || [],
@@ -28,8 +27,8 @@ export default function PostEditDialog() {
     districts_id: post.districts_id || "",
     slug: post.slug || "",
   };
-  function onSubmit(data: PostFormType) {
-    updatePost.mutate(data, {
+  function onSubmit(values: z.infer<typeof PostFormSchema>) {
+    updatePost(values, {
       onSuccess: () => {
         onClose();
       },
@@ -46,6 +45,7 @@ export default function PostEditDialog() {
         </DialogHeader>
         <section className="w-full mx-auto px-4 min-h-[80vh] overflow-auto">
           <PostForm
+            id={posts_id}
             onSubmit={onSubmit}
             defaultValues={defaultValues}
             isUpdateMode={true}

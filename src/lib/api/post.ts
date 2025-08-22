@@ -8,6 +8,14 @@ export async function createPost(values: z.infer<typeof PostFormSchema>) {
   return response.data;
 }
 
+export async function updatePost(
+  id?: number,
+  values?: z.infer<typeof PostFormSchema>
+) {
+  const response = await api.put(`/posts/${id}`, values);
+  return response.data;
+}
+
 export async function findPostsBySort(sort: HomeSort) {
   const response = await api.get("/posts", {
     params: { sort },
@@ -26,6 +34,7 @@ export async function findPostById(id?: number) {
   const response = await api.get(`/posts/${id}`);
   return response.data;
 }
+
 export async function findPostsBySearch(params: PostFilterParams) {
   const response = await api.get("/posts/search", {
     params,

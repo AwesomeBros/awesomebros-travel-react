@@ -1,4 +1,3 @@
-import PostSearchFilter from "@/components/post/form/post-search-filter";
 import { useConfirm } from "@/hooks/use-confirm";
 import useFilterParams from "@/hooks/use-filter-params";
 import { useFindLikedPostsByUserId, useToggleLike } from "@/lib/query";
@@ -42,7 +41,7 @@ export function MyLikedPosts() {
       <ConfirmDialog />
       <div className="mt-10 mb-40 w-full bg-white p-6 rounded-lg shadow-md px-4">
         <h1 className="mb-10 text-lg md:text-2xl font-semibold">나의 좋아요</h1>
-        <PostSearchFilter />
+        {/* <PostSearchFilter /> */}
         <table className="w-full text-sm text-left text-muted-foreground">
           <thead className="text-xs text-gray-700 bg-gray-50">
             <tr>

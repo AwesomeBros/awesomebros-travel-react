@@ -13,6 +13,7 @@ export {
   findPostsByCities,
   findPostsBySearch,
   findPostsBySort,
+  updatePost,
 } from "./post";
 export {
   changePassword,

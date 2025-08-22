@@ -18,6 +18,7 @@ export {
   useFindPostsByCities,
   useFindPostsBySearch,
   useFindPostsBySort,
+  useUpdatePost,
 } from "./post";
 export {
   useChangePassword,
