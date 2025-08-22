@@ -25,7 +25,7 @@ export function MyPosts() {
   // const deletePost = useDeletePost();
 
   const { data, isError } = useFindPostsByUserId(params.page, session?.id);
-  const posts: Post[] = data || [];
+  const posts: Post[] = data?.content || [];
 
   if (isError) {
     return (

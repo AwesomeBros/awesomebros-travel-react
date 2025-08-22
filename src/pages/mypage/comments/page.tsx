@@ -26,15 +26,13 @@ export function MyComments() {
   );
   const { data, isError } = useFindCommentsByUserId(params.page, session?.id);
 
-  const comments: Comment[] = data || [];
-
-  console.log("댓글 목록 ", comments);
+  const comments: Comment[] = data?.content || [];
 
   if (isError) {
     return (
       <div className="w-full h-30 flex justify-center items-center">
         <p className="text-red-500">
-          내 게시글 목록을 불러오는 중 오류가 발생했습니다.
+          내 댓글 목록을 불러오는 중 오류가 발생했습니다.
         </p>
       </div>
     );

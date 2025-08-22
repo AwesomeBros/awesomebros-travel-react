@@ -18,15 +18,13 @@ export function MyLikedPosts() {
     ""
   );
   const { data, isError } = useFindLikedPostsByUserId(params.page, session?.id);
-  const posts: Post[] = data || [];
-
-  console.log("좋아요 목록 ", posts);
+  const posts: Post[] = data?.content || [];
 
   if (isError) {
     return (
       <div className="w-full h-30 flex justify-center items-center">
         <p className="text-red-500">
-          내 게시글 목록을 불러오는 중 오류가 발생했습니다.
+          내 좋아요 목록을 불러오는 중 오류가 발생했습니다.
         </p>
       </div>
     );
